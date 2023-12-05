@@ -8,13 +8,11 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-<<<<<<< HEAD
             background-color: black;
             background: black;
-=======
+
             background-color: #f4f4f4;
             background: url('search_bg.jpg');
->>>>>>> 73f11b7a45df6c7b531a831a3f4110eb48a7e253
             margin: 0;
             padding: 0;
             display: flex;
