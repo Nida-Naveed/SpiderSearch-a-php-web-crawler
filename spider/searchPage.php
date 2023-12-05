@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Spider</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            background: url('search_bg.jpg');
+            background-color: black;
+            background: black;
             margin: 0;
             padding: 0;
             display: flex;
@@ -23,6 +24,7 @@
 
         h1 {
             color: blueviolet;
+            font-size: 40px;
             text-shadow: 1px 1px 1px  #f4f4f4 ;
         }
 
@@ -47,11 +49,6 @@
         button:hover {
             background-color: #275c29;
         }
-        #result{
-            color: rgb(36, 91, 201);
-            font-size: large;
-            text-shadow: .5px .5px .5px  #f4f4f4 ;
-        }
     </style>
 </head>
 <body>
@@ -59,17 +56,24 @@
         <h1>SpiderSearch</h1>
         <input type="text" id="urlInput" placeholder="Enter to spider....">
         <button onclick="startSpider()">search!</button>
-        <div id="result"><b>ready to spider?</b></div>
     </div>
 
     <script>
         function startSpider() {
-            // Replace this with your web spider logic
             const url = document.getElementById('urlInput').value;
-    
 
-            // Display results in the 'result' div
-            document.getElementById('result').innerHTML = `<p><b>Spidering "${url}"...</b></p>`;
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'spider.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    document.getElementById('result').innerHTML = response.result;
+                } else {
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.send('url=' + url);
         }
     </script>
 </body>
