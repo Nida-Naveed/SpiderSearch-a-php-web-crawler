@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Spider</title>
@@ -11,8 +10,6 @@
             background-color: black;
             background: black;
 
-            background-color: #f4f4f4;
-            background: url('search_bg.jpg');
             margin: 0;
             padding: 0;
             display: flex;
@@ -58,26 +55,35 @@
     <div class="container">
         <h1>SpiderSearch</h1>
         <input type="text" id="urlInput" placeholder="Enter to spider....">
-        <button onclick="startSpider()">search!</button>
+        <button onclick="initiateCrawling()">search!</button>
     </div>
 
     <script>
-        function startSpider() {
-            const url = document.getElementById('urlInput').value;
+    // Function to initiate crawling
+    function initiateCrawling() {
+        // Get the seed URL from the input field
+        var userProvidedUrl = document.getElementById("urlInput").value;
 
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'spider.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    document.getElementById('result').innerHTML = response.result;
-                } else {
-                    console.error('Error:', xhr.statusText);
-                }
-            };
-            xhr.send('url=' + url);
-        }
-    </script>
+        // Create an XMLHttpRequest object to send data to the server
+        var request = new XMLHttpRequest();
+
+        // Set up the request
+        request.open("POST", "crawl.php", true);
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        // Define a callback function to handle the response from the server
+        request.onreadystatechange = function () {
+            // Check if the request is complete and successful
+            if (request.readyState == 4 && request.status == 200) {
+                // Display an alert indicating that crawling is complete
+                alert("Crawling complete. Check the server logs for details.");
+            }
+        };
+
+        // Encode and send the seed URL as a parameter to the server
+        request.send("userProvidedUrl=" + encodeURIComponent(userProvidedUrl));
+    }
+</script>
+
 </body>
 </html>
